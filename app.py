@@ -10,10 +10,16 @@ from bson.objectid import ObjectId  # For ObjectId to work
 from bson.errors import InvalidId  # For catching InvalidId exception for ObjectId
 import os
 
+
 mongodb_host = os.environ.get("MONGO_HOST", "localhost")
 mongodb_port = int(os.environ.get("MONGO_PORT", "27017"))
+mongodb_username = os.environ.get("MONGO_INITDB_ROOT_USERNAME")
+mongodb_password = os.environ.get("MONGO_INITDB_ROOT_PASSWORD")
 client = MongoClient(
-    mongodb_host, mongodb_port
+    mongodb_host,
+    mongodb_port,
+    username=mongodb_username,
+    password=mongodb_password,
 )  # Configure the connection to the database
 db = client.camp2016  # Select the database
 todos = db.todo  # Select the collection
