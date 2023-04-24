@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app-container
+          image: shawntai/cs6998-hw3:app
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MONGO_HOST
+              value: mongodb-service
+            - name: PORT
+              value: "5000"
+            - name: MONGO_USERNAME
+              value: "root"
+            - name: MONGO_PASSWORD
+              value: "rootpassword"
