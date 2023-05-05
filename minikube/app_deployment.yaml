@@ -3,7 +3,12 @@ kind: Deployment
 metadata:
   name: app-deployment
 spec:
-  replicas: 2
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # maxSurge: 1
+      maxUnavailable: 2
   selector:
     matchLabels:
       app: app
@@ -14,7 +19,8 @@ spec:
     spec:
       containers:
         - name: app-container
-          image: shawntai/cs6998-hw3:app
+          image: shawntai/cs6998-hw3:app-latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
           env:
@@ -26,3 +32,51 @@ spec:
               value: "root"
             - name: MONGO_PASSWORD
               value: "rootpassword"
+          readinessProbe:
+            exec:
+              command:
+                - "ls"
+                - "/app"
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            exec:
+              command:
+                # - "curl"
+                # - "localhost:5000"
+                - "ls"
+                - "/app"
+            # httpGet:
+            #   path: /
+            #   port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          # readinessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: 5000
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          # livenessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: 5000
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 20
+          # readinessProbe:
+          #   tcpSocket:
+          #       port: 5000
+          #     initialDelaySeconds: 5
+          #     periodSeconds: 10
+          # livenessProbe:
+          #   tcpSocket:
+          #     port: 5000
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 20
+          # resources:
+          #   limits:
+          #     cpu: "1"
+          #     memory: "512Mi"
+          #   requests:
+          #     cpu: "0.5"
+          #     memory: "256Mi"

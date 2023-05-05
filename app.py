@@ -50,6 +50,12 @@ def tasks():
     todos_l = todos.find({"done": "no"})
     a2 = "active"
     return render_template("index.html", a2=a2, todos=todos_l, t=title, h=heading)
+    # return False, 404
+
+
+@app.route("/metrics")
+def metrics():
+    return 200
 
 
 @app.route("/completed")

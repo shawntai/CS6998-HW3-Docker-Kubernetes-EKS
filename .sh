@@ -5,6 +5,11 @@ docker push shawntai/cs6998-hw3:app
 
 docker build -t shawntai/cs6998-hw3:app .
 
+docker build -t shawntai/cs6998-hw3:app . && docker push shawntai/cs6998-hw3:app
+docker build -t shawntai/cs6998-hw3:app-latest . && docker push shawntai/cs6998-hw3:app-latest
+
+docker build --platform=linux/amd64 -t shawntai/cs6998-hw3:app-amd .
+
 # minikube commands
 minikube start
 minikube dashboard
@@ -18,5 +23,5 @@ minikube service app-service --url
 aws eks update-kubeconfig --region us-east-1 --name cs6998-hw3-cluster
 kubectl apply -f deployment.yaml
 kubectl config get-contexts
-kubectl config use-context shawntai@cs6998-hw3-cluster.us-east-1.eksctl.io   
+kubectl config use-context shawntai@cs6998-hw3-cluster.us-east-1.eksctl.io
 kubectl describe pod app-deployment-f6c99bc57-ph6gq
